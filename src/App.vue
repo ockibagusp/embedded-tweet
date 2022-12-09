@@ -118,7 +118,7 @@ export default {
 <template>
   <main>
     <h2 style="margin-top: 5px;">Menyematkan (embed) Video Tweet Tanpa Me-Retweet di Twitter</h2>
-    <textarea v-model="embeddedTweet"  placeholder="Fedora 37!... https://twitter.com/ockibagusp/status/1592924571732414465?s=20&t=bgO6hwTfDckbtQibxDJZPQ" cols="50" rows="5" ref="embeddedTweet"></textarea>
+    <textarea v-model="embeddedTweet" placeholder="https://twitter.com/ockibagusp/status/1592924571732414465?s=20&t=bgO6hwTfDckbtQibxDJZPQ" cols="50" rows="5" ref="embeddedTweet"></textarea>
     <br>
     <button @click="btnCopy" :disabled="isCopy">Copy</button>
     <button @click="btnTweet" :disabled="isTweet">Tweet is: <small v-if="embeddedTweet.length < 280">+</small> {{count}}</button>
