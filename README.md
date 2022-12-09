@@ -1,2 +1,2 @@
 # embedded-tweet
-Fitur untuk menyematkan (embed) tweet terbaru atau terlama.
+Menyematkan (embed) Video Tweet Tanpa Me-Retweet di Twitter.
