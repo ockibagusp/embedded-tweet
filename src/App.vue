@@ -118,11 +118,13 @@ export default {
 <template>
   <main>
     <h2 style="margin-top: 5px;">Menyematkan (embed) Video Tweet Tanpa Me-Retweet di Twitter</h2>
-    <textarea v-model="embeddedTweet" placeholder="https://twitter.com/ockibagusp/status/1592924571732414465?s=20&t=bgO6hwTfDckbtQibxDJZPQ" cols="50" rows="5" ref="embeddedTweet"></textarea>
+    <p style="margin-top: -15px;">Link: <a href="https://www.howtogeek.com/668753/how-to-embed-someones-twitter-video-without-retweeting-them" target="_blank">How to Embed Someone’s Twitter Video Without Retweeting Them!</a></p>
+    <textarea v-model="embeddedTweet" placeholder="https://twitter.com/ockibagusp/status/1592924571732414465?s=20&t=bgO6hwTfDckbtQibxDJZPQ" cols="50" rows="3" ref="embeddedTweet" style="margin-top: -10px;"></textarea>
     <br>
     <button @click="btnCopy" :disabled="isCopy">Copy</button>
     <button @click="btnTweet" :disabled="isTweet">Tweet is: <small v-if="embeddedTweet.length < 280">+</small> {{count}}</button>
     <br>
+    <p style="color: green">*Bagikan Video Twitter di Android dan Video Twitter Dari Web</p>
     <p>Contoh: https://twitter.com/ockibagusp/status/1592924571732414465?s=20&t=bgO6hwTfDckbtQibxDJZPQ <button @click="btnCopyExample">Copy</button></p>
 
   </main>
