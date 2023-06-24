@@ -81,6 +81,8 @@ export default {
       console.log('profile:', profile);
       console.log('status:', status);
 
+      console.log(this.embeddedTweet)
+
       if (profile != '' && status != '') {
         newEmbeddedTweet = `https://twitter.com/${profile}/status/${status}/video/1`
         this.selectResults = true
