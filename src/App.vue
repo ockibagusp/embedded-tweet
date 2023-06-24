@@ -10,6 +10,9 @@ export default {
 
       // tweet dihasil maks. 280 karakter
       count: 280,
+
+      // pilih strong: '*Tweet ini tidak ada hasil'
+      selectNoResult: false,
       
       // pilih button salinan dan tweet: true atau false
       selectCopy: false,
@@ -153,7 +156,7 @@ export default {
 
 <template>
   <main>
-    <h2 style="margin-top: 5px;">Menyematkan (embed) Video Tweet Tanpa Me-Retweet di Twitter</h2>
+    <h2 style="margin-top: 5px;">Menyematkan (embed) Tweet Video Tanpa Me-Retweet di Twitter</h2>
     <p style="margin-top: -15px;">Link: <a href="https://www.howtogeek.com/668753/how-to-embed-someones-twitter-video-without-retweeting-them" target="_blank">How to Embed Someone’s Twitter Video Without Retweeting Them!</a></p>
     <textarea v-model="embeddedTweet" style="margin-top: -10px; width: 500px;height: 90px;" 
       placeholder="Fedora 37! 👏 (2)
@@ -163,12 +166,13 @@ https://twitter.com/ockibagusp/status/1592924571732414465?s=20&t=bgO6hwTfDckbtQi
     <button @click="btnReset" data-test="btn-reset">Reset</button>
     <button @click="btnCopy" data-test="btn-copy" :disabled="isCopy">Copy</button>
     <button @click="btnTweet" data-test="btn-tweet" :disabled="isTweet">Tweet is: <small v-if="embeddedTweet.length < 280">+</small> {{count}}</button>
-    <strong style="margin-left: 10px; color: red;">*Tweet ini tidak ada hasil</strong>
+    <strong v-if="selectNoResult" data-test="str-no-result" :style="{'margin-left': '10px', color: selectNoResult ? 'red' : '' }">*Tweet ini tidak ada hasil</strong>
     <br>
-    <p style="color: green; margin-top: 8px; margin-bottom: 8px;">*Bagikan Video Twitter di Android dan Video Twitter Dari Web</p>
-    <p style="margin-bottom: 5px;">Contoh:</p>
-    <p style="margin-top: 5px;">Fedora 37! 👏 (2)</p>  
-    <p>https://twitter.com/ockibagusp/status/1592924571732414465?s=20&t=bgO6hwTfDckbtQibxDJZPQ <button @click="btnCopyExample">Copy</button></p>
+    <p style="color: green; margin-top: 12px; margin-bottom: 8px;">*Bagikan Video Twitter di Android dan Video Twitter Dari Web</p>
+    <div style="width: 700px;">
+      <p style="margin-bottom: 0px;">Contoh:</p>
+      <p style="margin-top: 1px; border-bottom:1px solid black;">https://twitter.com/ockibagusp/status/1592924571732414465?s=20&t=bgO6hwTfDckbtQibxDJZPQ <button @click="btnCopyExample">Copy</button></p>
+    </div>
   </main>
   </template>
 
