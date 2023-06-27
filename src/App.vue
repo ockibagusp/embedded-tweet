@@ -52,54 +52,81 @@ export default {
         return
       }
 
-      // regex101.com
-      const regex = /https:\/\/twitter\.com\/(\w.*)\/status\/(\d*)|\?\w.*/gm
-
-      const oldEmbeddedTweet = this.embeddedTweet
-      
-      let m
-      let profile, status = ''
-
-      while ((m = regex.exec(oldEmbeddedTweet)) !== null) {
-        // This is necessary to avoid infinite loops with zero-width matches
-        if (m.index === regex.lastIndex) {
-            regex.lastIndex++
-        }
+      let embeddedTweetArray = this.embeddedTweet.toString().split(' ')
+      console.log('embeddedTweetArray:', embeddedTweetArray);
+      let quit = false
+      for (let i = 0; i < embeddedTweetArray.length; i++) {
+        const embeddedTweet = embeddedTweetArray[i]
+        const twitterChar = embeddedTweet.search('https://twitter.com/')
+        const twitterVideoChar = embeddedTweet.search(/\/video\/1$/)
         
-        // The result can be accessed through the `m`-variable.
-        m.forEach((match, groupIndex) => {
-          if (match !== undefined && groupIndex === 1) {
-            profile = match
+        if (twitterChar !== -1) {
+          quit = true
+          if (twitterVideoChar !== -1) {
+            break
+          }
+          
+          // regex101.com
+          const regex = /https:\/\/twitter\.com\/(\w.*)\/status\/(\d*)|\?\w.*/gm
+
+          const oldEmbeddedTweet = embeddedTweet
+
+          let m
+          let profile, status = ''
+
+          console.log('oldEmbeddedTweet:', oldEmbeddedTweet);
+
+          while ((m = regex.exec(oldEmbeddedTweet)) !== null) {        
+            // This is necessary to avoid infinite loops with zero-width matches
+            if (m.index === regex.lastIndex) {
+                regex.lastIndex++
+            }
+
+            // The result can be accessed through the `m`-variable.
+            m.forEach((match, groupIndex) => {
+              console.log('-', match);
+              if (match !== undefined && groupIndex === 1) {
+                profile = match
+              }
+            
+              if (match !== undefined && groupIndex === 2) {
+                status = match
+              }
+            })
           }
 
-          if (match !== undefined && groupIndex === 2) {
-            status = match
+          console.log('profile:', profile);
+          console.log('status:', status);
+
+          if (profile != '' && status != '') {
+            newEmbeddedTweet = `https://twitter.com/${profile}/status/${status}/video/1`
+            embeddedTweetArray[i] = newEmbeddedTweet
+            this.selectResults = true
+            this.selectCopy = true
+            this.selectTweet = true
+          
+            this.count = 280 - newEmbeddedTweet.length
+          } else {
+            newEmbeddedTweet = this.embeddedTweet
+            this.selectResults = false
+            this.selectCopy = false
+            this.selectTweet = false
+          
+            this.count = 280
           }
-        })
+
+          embeddedTweetArray.join(" and ")
+
+          this.embeddedTweet = embeddedTweetArray
+          break
+        }
       }
 
-      console.log('profile:', profile);
-      console.log('status:', status);
-
-      console.log(this.embeddedTweet)
-
-      if (profile != '' && status != '') {
-        newEmbeddedTweet = `https://twitter.com/${profile}/status/${status}/video/1`
-        this.selectResults = true
-        this.selectCopy = true
-        this.selectTweet = true
-
-        this.count = 280 - newEmbeddedTweet.length
-      } else {
-        newEmbeddedTweet = this.embeddedTweet
-        this.selectResults = false
-        this.selectCopy = false
-        this.selectTweet = false
-
-        this.count = 280
+      if (!quit) {
+        console.log('bad');
+        this.isEmbeddedTweetError()
+        return
       }
-      
-      this.embeddedTweet = newEmbeddedTweet
     },
 
     // button: reset, copy dan tweet
@@ -139,12 +166,18 @@ export default {
       this.embeddedTweet = ''
       this.isEmbeddedTweetDefault()
     },
+    
+    isEmbeddedTweetError() {
+      this.isEmbeddedTweetDefault()
+    },
+
     isEmbeddedTweetDefault() {
       // this.embeddedTweetBool = false
       this.count = 280
       this.selectCopy = false
       this.selectTweet = false
     },
+
     isEmbeddedTweetSuccess(videoLength) {
       // this.embeddedTweetBool = true
       this.selectResults = true

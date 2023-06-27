@@ -19,15 +19,36 @@ const btnTweet = wrapper.get('[data-test="btn-tweet"]')
 const strNoResult = wrapper.find('[data-test="str-no-result"]')
 
 /**
+  * Di Internet, alamat bernama embedded-tweet adalah 'http://localhost:3000',
+  *   'https://ockibagusp.github.io/embedded-tweet/' atau lainnya
+  * 
+  * 1. Tautan (Twitter.com) Tweet baru: salin tautan ke Tweet
+  *   - masukan tautan ke Menyematkan (tertanam) Video Tweet. 
+  *   - (1) misalnya: https://twitter.com/ockibagusp/status/1592924571732414465?s=20&t=bgO6hwTfDckbtQibxDJZPQ
+  *     string ke array
+  *     ok: 
+  * 
+  *   - (2) misalnya: Bang Messi "KW": (2)\n\nhttps://twitter.com/ockibagusp/status/1667598173530095616?s=20
+  *     string ke array
+  *     ok: 
+  * 
+  *   - (3) misalnya: -
+  *     string ke array
+  *     no:
+  * 
+  *   - The includes() Method https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_includes
+  * 3.
+  */
+
+/**
  * TDD
  * Embedded Tweet
- * ✅ ❌
  * 
- * 1. App js: init ✅
- * 2. App js: embedded tweet all
+ * 1. App js: init [x]
+ * 2. App js: embedded tweet all [ ]
  *  - success
  *  - failure
- * 3. App js: reset embedded tweet
+ * 3. App js: reset embedded tweet [ ]
  */
 describe('App js: init', () => {
   assert.exists(App)
