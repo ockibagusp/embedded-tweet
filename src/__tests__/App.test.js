@@ -28,7 +28,7 @@ const strNoResult = wrapper.find('[data-test="str-no-result"]')
   *     string ke array
   *     ok: 
   * 
-  *   - (2) misalnya: Bang Messi "KW": (2)\n\nhttps://twitter.com/ockibagusp/status/1667598173530095616?s=20
+  *   - (2) misalnya: Bang Messi "KW": (2)\nhttps://twitter.com/ockibagusp/status/1667598173530095616?s=20
   *     string ke array
   *     ok: 
   * 
@@ -70,20 +70,20 @@ describe('App js: embedded tweet all', () => {
     const testCases = [
       {
         name: 'embedded tweet success: 1',
-        embeddedTweet: 'Fedora 37! 👏 (2)\n\nhttps://twitter.com/ockibagusp/status/1592924571732414465?s=20&t=bgO6hwTfDckbtQibxDJZPQ',
-        results: 'Fedora 37! 👏 (2)\n\nhttps://twitter.com/ockibagusp/status/1592924571732414465/video/1',
+        embeddedTweet: 'Fedora 37! 👏 (2)\nhttps://twitter.com/ockibagusp/status/1592924571732414465?s=20&t=bgO6hwTfDckbtQibxDJZPQ',
+        results: 'Fedora 37! 👏 (2)\nhttps://twitter.com/ockibagusp/status/1592924571732414465/video/1',
         tweetIs: 'Tweet is: + 195'
       },
       {
         name: 'embedded tweet success: 2',
-        embeddedTweet: 'Bang Messi "KW": (2)\n\nhttps://twitter.com/ockibagusp/status/1667598173530095616?s=20',
-        results: 'Bang Messi "KW": (2)\n\nhttps://twitter.com/ockibagusp/status/1667598173530095616/video/1',
+        embeddedTweet: 'Bang Messi "KW": (2)\nhttps://twitter.com/ockibagusp/status/1667598173530095616?s=20',
+        results: 'Bang Messi "KW": (2)\nhttps://twitter.com/ockibagusp/status/1667598173530095616/video/1',
         tweetIs: 'Tweet is: + 191'
       },
       {
         name: 'embedded tweet success: 3',
-        embeddedTweet: 'Cara Menerima THR yang Benar [Meme] (2)\n\nSrc. (YouTube) (2)\n\nhttps://twitter.com/ockibagusp/status/1647863715159760896',
-        results: 'Cara Menerima THR yang Benar [Meme] (2)\n\nSrc. (YouTube) (2)\n\nhttps://twitter.com/ockibagusp/status/1647863715159760896/video/1',
+        embeddedTweet: 'Cara Menerima THR yang Benar [Meme] (2)\nSrc. (YouTube) (2)\nhttps://twitter.com/ockibagusp/status/1647863715159760896',
+        results: 'Cara Menerima THR yang Benar [Meme] (2)\nSrc. (YouTube) (2)\nhttps://twitter.com/ockibagusp/status/1647863715159760896/video/1',
         tweetIs: 'Tweet is: + 150'
       },
       {
@@ -110,20 +110,20 @@ describe('App js: embedded tweet all', () => {
     const testCases = [
       {
         name: 'embedded tweet failure: 1',
-        embeddedTweet: 'Test Failure 1\n\n-',
-        results: 'Test Failure 1\n\n-',
-        tweetIs: 'Tweet is: + 261'
+        embeddedTweet: 'Test Failure 1\n-',
+        results: 'Test Failure 1\n-',
+        tweetIs: 'Tweet is: + 264'
       },
       {
         name: 'embedded tweet failure: 2',
-        embeddedTweet: 'Test Failure 2\n\nhttps://twitter.com/test/status/',
-        results: 'Test Failure 2\n\nhttps://twitter.com/test/status/',
+        embeddedTweet: 'Test Failure 2\nhttps://twitter.com/test/status/',
+        results: 'Test Failure 2\nhttps://twitter.com/test/status/',
         tweetIs: 'Tweet is: + 230'
       },
       {
         name: 'embedded tweet failure: 3',
-        embeddedTweet: 'Test Failure 3\n\nhttps://twitter.com//status/1592924571732414465?s=20',
-        results: 'Test Failure 3\n\nhttps://twitter.com//status/1592924571732414465?s=20',
+        embeddedTweet: 'Test Failure 3\nhttps://twitter.com//status/1592924571732414465?s=20',
+        results: 'Test Failure 3\nhttps://twitter.com//status/1592924571732414465?s=20',
         tweetIs: 'Tweet is: + 210'
       }
     ]

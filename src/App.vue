@@ -57,26 +57,28 @@ export default {
       let quit = false
       for (let i = 0; i < embeddedTweetArray.length; i++) {
         const embeddedTweet = embeddedTweetArray[i]
-        const twitterChar = embeddedTweet.search('https://twitter.com/')
-        const twitterVideoChar = embeddedTweet.search(/\/video\/1$/)
+        const twitterChars = embeddedTweet.indexOf('https://twitter.com/')
+        const videoChars = embeddedTweet.search(/\/video\/1$/)
         
-        if (twitterChar !== -1) {
+        let anythingButTwitter, realTwitter = ''
+
+        if (twitterChars !== -1) {
           quit = true
-          if (twitterVideoChar !== -1) {
+          if (videoChars !== -1) {
+            this.count = 280 - this.embeddedTweet.length
             break
           }
-          
+
+          anythingButTwitter = embeddedTweet.slice(0, twitterChars-1)
+          realTwitter = embeddedTweet.slice(twitterChars, embeddedTweet.length)
+
           // regex101.com
           const regex = /https:\/\/twitter\.com\/(\w.*)\/status\/(\d*)|\?\w.*/gm
-
-          const oldEmbeddedTweet = embeddedTweet
 
           let m
           let profile, status = ''
 
-          console.log('oldEmbeddedTweet:', oldEmbeddedTweet);
-
-          while ((m = regex.exec(oldEmbeddedTweet)) !== null) {        
+          while ((m = regex.exec(realTwitter)) !== null) {        
             // This is necessary to avoid infinite loops with zero-width matches
             if (m.index === regex.lastIndex) {
                 regex.lastIndex++
@@ -84,7 +86,6 @@ export default {
 
             // The result can be accessed through the `m`-variable.
             m.forEach((match, groupIndex) => {
-              console.log('-', match);
               if (match !== undefined && groupIndex === 1) {
                 profile = match
               }
@@ -95,36 +96,34 @@ export default {
             })
           }
 
-          console.log('profile:', profile);
-          console.log('status:', status);
-
           if (profile != '' && status != '') {
-            newEmbeddedTweet = `https://twitter.com/${profile}/status/${status}/video/1`
-            embeddedTweetArray[i] = newEmbeddedTweet
+            embeddedTweetArray[i] = `${anythingButTwitter}\n\nhttps://twitter.com/${profile}/status/${status}/video/1`
             this.selectResults = true
             this.selectCopy = true
             this.selectTweet = true
-          
-            this.count = 280 - newEmbeddedTweet.length
           } else {
-            newEmbeddedTweet = this.embeddedTweet
             this.selectResults = false
             this.selectCopy = false
             this.selectTweet = false
           
             this.count = 280
+            break
           }
 
-          embeddedTweetArray.join(" and ")
-
-          this.embeddedTweet = embeddedTweetArray
+          this.embeddedTweet = embeddedTweetArray.join(" ")
           break
+        } else {
+          this.embeddedTweet = embeddedTweetArray.join(" ")
+
         }
+
+        this.count = 280 - this.embeddedTweet.length
       }
 
       if (!quit) {
         console.log('bad');
         this.isEmbeddedTweetError()
+        this.count = 280 - this.embeddedTweet.length
         return
       }
     },
@@ -159,7 +158,7 @@ export default {
     },
 
     btnCopyExample() {
-      navigator.clipboard.writeText('Fedora 37! 👏\n\nhttps://twitter.com/ockibagusp/status/1592924571732414465?s=20&t=bgO6hwTfDckbtQibxDJZPQ')
+      navigator.clipboard.writeText('Fedora 37! 👏\nhttps://twitter.com/ockibagusp/status/1592924571732414465?s=20&t=bgO6hwTfDckbtQibxDJZPQ')
     },
 
     isNotEmbeddedTweet() {
