@@ -98,15 +98,13 @@ export default {
 
           if (profile != '' && status != '') {
             embeddedTweetArray[i] = `${anythingButTwitter}\n\nhttps://twitter.com/${profile}/status/${status}/video/1`
-            this.selectResults = true
             this.selectCopy = true
             this.selectTweet = true
           } else {
-            this.selectResults = false
             this.selectCopy = false
             this.selectTweet = false
           
-            this.count = 280
+            this.count = 280 - this.embeddedTweet.length
             break
           }
 
@@ -158,7 +156,7 @@ export default {
     },
 
     btnCopyExample() {
-      navigator.clipboard.writeText('Fedora 37! 👏\nhttps://twitter.com/ockibagusp/status/1592924571732414465?s=20&t=bgO6hwTfDckbtQibxDJZPQ')
+      navigator.clipboard.writeText('Fedora 37! 👏\n\nhttps://twitter.com/ockibagusp/status/1592924571732414465?s=20&t=bgO6hwTfDckbtQibxDJZPQ')
     },
 
     isNotEmbeddedTweet() {
@@ -178,8 +176,6 @@ export default {
     },
 
     isEmbeddedTweetSuccess(videoLength) {
-      // this.embeddedTweetBool = true
-      this.selectResults = true
       this.selectCopy = true
       this.selectTweet = true
       this.count = 280 - videoLength
