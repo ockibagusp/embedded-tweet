@@ -88,9 +88,9 @@ describe('App js: embedded tweet all', () => {
       },
       {
         name: 'embedded tweet success: 4',
-        embeddedTweet: 'https://twitter.com/ockibagusp/status/1631434648751607808?s=20',
-        results: 'https://twitter.com/ockibagusp/status/1631434648751607808/video/1',
-        tweetIs: 'Tweet is: + 215'
+        embeddedTweet: 'https://twitter.com/NRBTweetz/status/1640326522916728834?s=20',
+        results: 'https://twitter.com/NRBTweetz/status/1640326522916728834/video/1',
+        tweetIs: 'Tweet is: + 216'
       }
     ]
 
@@ -141,7 +141,7 @@ describe('App js: embedded tweet all', () => {
 })
 
 describe('App js: reset embedded tweet', () => {
-  it('reset embedded tweet', () => {
+  it('reset embedded tweet', async() => {
   })
 })
 
