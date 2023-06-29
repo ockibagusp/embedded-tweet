@@ -72,19 +72,19 @@ describe('App js: embedded tweet all', () => {
         name: 'embedded tweet success: 1',
         embeddedTweet: 'Fedora 37! 👏 (2)\n\nhttps://twitter.com/ockibagusp/status/1592924571732414465?s=20&t=bgO6hwTfDckbtQibxDJZPQ',
         results: 'Fedora 37! 👏 (2)\n\nhttps://twitter.com/ockibagusp/status/1592924571732414465/video/1',
-        tweetIs: 'Tweet is: + 197'
+        tweetIs: 'Tweet is: + 196'
       },
       {
         name: 'embedded tweet success: 2',
         embeddedTweet: 'Bang Messi "KW": (2)\n\nhttps://twitter.com/ockibagusp/status/1667598173530095616?s=20',
         results: 'Bang Messi "KW": (2)\n\nhttps://twitter.com/ockibagusp/status/1667598173530095616/video/1',
-        tweetIs: 'Tweet is: + 194'
+        tweetIs: 'Tweet is: + 193'
       },
       {
         name: 'embedded tweet success: 3',
-        embeddedTweet: 'Cara Menerima THR yang Benar [Meme] (2)\n\nSrc. (YouTube) (2)\n\nhttps://twitter.com/ockibagusp/status/1647863715159760896',
-        results: 'Cara Menerima THR yang Benar [Meme] (2)\n\nSrc. (YouTube) (2)\n\nhttps://twitter.com/ockibagusp/status/1647863715159760896/video/1',
-        tweetIs: 'Tweet is: + 156'
+        embeddedTweet: 'Cara Menerima THR yang Benar [Meme] (2)\n\nSrc. (YouTube)\n\nhttps://twitter.com/ockibagusp/status/1647863715159760896',
+        results: 'Cara Menerima THR yang Benar [Meme] (2)\n\nSrc. (YouTube)\n\nhttps://twitter.com/ockibagusp/status/1647863715159760896/video/1',
+        tweetIs: 'Tweet is: + 158'
       },
       {
         name: 'embedded tweet success: 4',

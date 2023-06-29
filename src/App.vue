@@ -53,7 +53,6 @@ export default {
       }
 
       let embeddedTweetArray = this.embeddedTweet.toString().split(' ')
-      console.log('embeddedTweetArray:', embeddedTweetArray);
       let quit = false
       for (let i = 0; i < embeddedTweetArray.length; i++) {
         const embeddedTweet = embeddedTweetArray[i]
@@ -69,10 +68,12 @@ export default {
             break
           }
 
+          console.log('twitterChars:', twitterChars);
           if (twitterChars !== 0) {
             anythingButTwitter = embeddedTweet.slice(0, twitterChars-1)
           }
           realTwitter = embeddedTweet.slice(twitterChars, embeddedTweet.length)
+          console.log('realTwitter:', realTwitter);
 
           // regex101.com
           const regex = /https:\/\/twitter\.com\/(\w.*)\/status\/(\d*)|\?\w.*/gm
@@ -88,6 +89,7 @@ export default {
 
             // The result can be accessed through the `m`-variable.
             m.forEach((match, groupIndex) => {
+              // ?
               if (match !== undefined && groupIndex === 1) {
                 profile = match
               }
@@ -98,9 +100,18 @@ export default {
             })
           }
 
+          console.log('profile:', profile);
+          console.log('status:', status);
+
           if (profile != '' && status != '') {
-            anythingButTwitter = anythingButTwitter.trimEnd()
-            embeddedTweetArray[i] = `${anythingButTwitter}\n\nhttps://twitter.com/${profile}/status/${status}/video/1`
+            console.log('anythingButTwitter:', anythingButTwitter);
+            if (anythingButTwitter !== undefined) {
+              anythingButTwitter = anythingButTwitter.trimEnd()
+              embeddedTweetArray[i] = `${anythingButTwitter}\n\nhttps://twitter.com/${profile}/status/${status}/video/1`
+            } else {
+              embeddedTweetArray[i] = `https://twitter.com/${profile}/status/${status}/video/1`
+            }
+
             this.selectCopy = true
             this.selectTweet = true
           } else {
@@ -115,14 +126,12 @@ export default {
           break
         } else {
           this.embeddedTweet = embeddedTweetArray.join(" ")
-
         }
 
         this.count = 280 - this.embeddedTweet.length
       }
 
       if (!quit) {
-        console.log('bad');
         this.isEmbeddedTweetError()
         this.count = 280 - this.embeddedTweet.length
         return
