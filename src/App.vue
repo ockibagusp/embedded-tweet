@@ -46,6 +46,8 @@ export default {
     async carry() {
       let newEmbeddedTweet = ''
 
+      console.log('this.embeddedTweet:', this.embeddedTweet);
+
       if (this.embeddedTweet == '') {
         this.embeddedTweet = ''
         this.isEmbeddedTweetDefault()
@@ -89,7 +91,6 @@ export default {
 
             // The result can be accessed through the `m`-variable.
             m.forEach((match, groupIndex) => {
-              // ?
               if (match !== undefined && groupIndex === 1) {
                 profile = match
               }
@@ -140,7 +141,7 @@ export default {
 
     // button: reset, copy dan tweet
     btnReset() {
-      this.embeddedTweet == ''
+      this.embeddedTweet = ''
       this.$refs.embeddedTweet.focus()
       this.selectCopy = false
       this.selectTweet = false
