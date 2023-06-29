@@ -69,7 +69,9 @@ export default {
             break
           }
 
-          anythingButTwitter = embeddedTweet.slice(0, twitterChars-1)
+          if (twitterChars !== 0) {
+            anythingButTwitter = embeddedTweet.slice(0, twitterChars-1)
+          }
           realTwitter = embeddedTweet.slice(twitterChars, embeddedTweet.length)
 
           // regex101.com
@@ -97,6 +99,7 @@ export default {
           }
 
           if (profile != '' && status != '') {
+            anythingButTwitter = anythingButTwitter.trimEnd()
             embeddedTweetArray[i] = `${anythingButTwitter}\n\nhttps://twitter.com/${profile}/status/${status}/video/1`
             this.selectCopy = true
             this.selectTweet = true
@@ -189,7 +192,7 @@ export default {
     <h2 style="margin-top: 5px;">Menyematkan (embed) Tweet Video Tanpa Me-Retweet di Twitter</h2>
     <p style="margin-top: -15px;">Link: <a href="https://www.howtogeek.com/668753/how-to-embed-someones-twitter-video-without-retweeting-them" target="_blank">How to Embed Someone’s Twitter Video Without Retweeting Them!</a></p>
     <textarea v-model="embeddedTweet" style="margin-top: -10px; width: 500px;height: 90px;" 
-      placeholder="Fedora 37! 👏 (2)
+      placeholder="Fedora 37! 👏
 
 https://twitter.com/ockibagusp/status/1592924571732414465?s=20&t=bgO6hwTfDckbtQibxDJZPQ" cols="50" rows="4" ref="embeddedTweet" data-test="embedded-tweet"></textarea>
     <br>
