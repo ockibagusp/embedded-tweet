@@ -11,6 +11,8 @@ export default {
       // tweet dihasil maks. 280 karakter
       count: 280,
 
+      tweetSuccess: '',
+
       // pilih strong: '*Tweet ini tidak ada hasil'
       selectNoResult: false,
       
@@ -44,10 +46,6 @@ export default {
   methods: {
     // memuat: dari textarea embeddedTweet ini
     async carry() {
-      let newEmbeddedTweet = ''
-
-      console.log('this.embeddedTweet:', this.embeddedTweet);
-
       if (this.embeddedTweet == '') {
         this.embeddedTweet = ''
         this.isEmbeddedTweetDefault()
@@ -59,13 +57,28 @@ export default {
       for (let i = 0; i < embeddedTweetArray.length; i++) {
         const embeddedTweet = embeddedTweetArray[i]
         const twitterChars = embeddedTweet.indexOf('https://twitter.com/')
-        const videoChars = embeddedTweet.search(/\/video\/1$/)
+        
+        console.log('embeddedTweet:', embeddedTweet);
+        
+        console.log('embeddedTweet.search', embeddedTweet.search(this.tweetSuccess));
+        // ?
+        let videoChars = ''
+        if (this.tweetSuccess !== '')
+          videoChars = this.tweetSuccess
+        else
+          videoChars = embeddedTweet.search(/\/video\/1$/)
+
+        console.log('twitterChars:', twitterChars);
+        console.log('videoChars:', videoChars);
         
         let anythingButTwitter, realTwitter = ''
 
         if (twitterChars !== -1) {
           quit = true
           if (videoChars !== -1) {
+            console.log('if (videoChars !== -1) {');
+            this.selectCopy = true
+            this.selectTweet = true
             this.count = 280 - this.embeddedTweet.length
             break
           }
@@ -101,16 +114,13 @@ export default {
             })
           }
 
-          console.log('profile:', profile);
-          console.log('status:', status);
-
           if (profile != '' && status != '') {
-            console.log('anythingButTwitter:', anythingButTwitter);
+            this.tweetSuccess = `https://twitter.com/${profile}/status/${status}/video/1`
             if (anythingButTwitter !== undefined) {
               anythingButTwitter = anythingButTwitter.trimEnd()
-              embeddedTweetArray[i] = `${anythingButTwitter}\n\nhttps://twitter.com/${profile}/status/${status}/video/1`
+              embeddedTweetArray[i] = `${anythingButTwitter}\n\n${this.tweetSuccess}`
             } else {
-              embeddedTweetArray[i] = `https://twitter.com/${profile}/status/${status}/video/1`
+              embeddedTweetArray[i] = this.tweetSucces
             }
 
             this.selectCopy = true
@@ -122,6 +132,8 @@ export default {
             this.count = 280 - this.embeddedTweet.length
             break
           }
+
+          console.log('embeddedTweetArray:', embeddedTweetArray);
 
           this.embeddedTweet = embeddedTweetArray.join(" ")
           break
@@ -143,6 +155,7 @@ export default {
     btnReset() {
       this.embeddedTweet = ''
       this.$refs.embeddedTweet.focus()
+      this.tweetSuccess = ''
       this.selectCopy = false
       this.selectTweet = false
     },
