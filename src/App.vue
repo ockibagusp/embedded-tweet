@@ -53,19 +53,23 @@ export default {
       }
 
       let embeddedTweetArray = this.embeddedTweet.toString().split(' ')
+      console.log('embeddedTweetArray:', embeddedTweetArray);
       let quit = false
       for (let i = 0; i < embeddedTweetArray.length; i++) {
         const embeddedTweet = embeddedTweetArray[i]
         const twitterChars = embeddedTweet.indexOf('https://twitter.com/')
         
-        console.log('embeddedTweet:', embeddedTweet);
-        
+        console.log('# embeddedTweet:', embeddedTweet);
+        console.log('this.tweetSuccess:', this.tweetSuccess);
         console.log('embeddedTweet.search', embeddedTweet.search(this.tweetSuccess));
         // ?
         let videoChars = ''
-        if (this.tweetSuccess !== '')
+        if (this.tweetSuccess !== '') {
+          console.log('if (this.tweetSuccess !==');
           videoChars = this.tweetSuccess
+        }
         else
+          console.log('else');
           videoChars = embeddedTweet.search(/\/video\/1$/)
 
         console.log('twitterChars:', twitterChars);
@@ -76,14 +80,12 @@ export default {
         if (twitterChars !== -1) {
           quit = true
           if (videoChars !== -1) {
-            console.log('if (videoChars !== -1) {');
             this.selectCopy = true
             this.selectTweet = true
             this.count = 280 - this.embeddedTweet.length
             break
           }
 
-          console.log('twitterChars:', twitterChars);
           if (twitterChars !== 0) {
             anythingButTwitter = embeddedTweet.slice(0, twitterChars-1)
           }
@@ -114,13 +116,17 @@ export default {
             })
           }
 
+          console.log('profile:', profile);
+          console.log('status:', status);
+
           if (profile != '' && status != '') {
             this.tweetSuccess = `https://twitter.com/${profile}/status/${status}/video/1`
+            console.log('i:', i);
             if (anythingButTwitter !== undefined) {
               anythingButTwitter = anythingButTwitter.trimEnd()
               embeddedTweetArray[i] = `${anythingButTwitter}\n\n${this.tweetSuccess}`
             } else {
-              embeddedTweetArray[i] = this.tweetSucces
+              embeddedTweetArray[i] = this.tweetSuccess
             }
 
             this.selectCopy = true
@@ -135,10 +141,10 @@ export default {
 
           console.log('embeddedTweetArray:', embeddedTweetArray);
 
-          this.embeddedTweet = embeddedTweetArray.join(" ")
+          this.embeddedTweet = embeddedTweetArray.join(' ')
           break
         } else {
-          this.embeddedTweet = embeddedTweetArray.join(" ")
+          this.embeddedTweet = embeddedTweetArray.join(' ')
         }
 
         this.count = 280 - this.embeddedTweet.length
