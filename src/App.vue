@@ -189,6 +189,7 @@ export default {
 
     btnCopyExample() {
       navigator.clipboard.writeText('Fedora 37! 👏\n\nhttps://twitter.com/ockibagusp/status/1592924571732414465?s=20&t=bgO6hwTfDckbtQibxDJZPQ')
+      this.$refs.embeddedTweet.focus()
     },
 
     isNotEmbeddedTweet() {
