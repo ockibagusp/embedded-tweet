@@ -10,6 +10,11 @@ export default {
 
       // tweet dihasil maks. 280 karakter
       count: 280,
+
+      tweetSuccess: '',
+
+      // pilih strong: '*Tweet ini tidak ada hasil'
+      selectNoResult: false,
       
       // pilih button salinan dan tweet: true atau false
       selectCopy: false,
@@ -41,66 +46,122 @@ export default {
   methods: {
     // memuat: dari textarea embeddedTweet ini
     async carry() {
-      let newEmbeddedTweet = ''
-
       if (this.embeddedTweet == '') {
         this.embeddedTweet = ''
         this.isEmbeddedTweetDefault()
         return
       }
 
-      // regex101.com
-      const regex = /https:\/\/twitter\.com\/(\w.*)\/status\/(\d*)|\?\w.*/gm
-
-      const oldEmbeddedTweet = this.embeddedTweet
-      
-      let m
-      let profile, status = ''
-
-      while ((m = regex.exec(oldEmbeddedTweet)) !== null) {
-        // This is necessary to avoid infinite loops with zero-width matches
-        if (m.index === regex.lastIndex) {
-            regex.lastIndex++
-        }
+      let embeddedTweetArray = this.embeddedTweet.toString().split(' ')
+      console.log('embeddedTweetArray:', embeddedTweetArray);
+      let quit = false
+      for (let i = 0; i < embeddedTweetArray.length; i++) {
+        const embeddedTweet = embeddedTweetArray[i]
+        const twitterChars = embeddedTweet.indexOf('https://twitter.com/')
         
-        // The result can be accessed through the `m`-variable.
-        m.forEach((match, groupIndex) => {
-          if (match !== undefined && groupIndex === 1) {
-            profile = match
+        console.log('# embeddedTweet:', embeddedTweet);
+        console.log('this.tweetSuccess:', this.tweetSuccess);
+        console.log('embeddedTweet.search', embeddedTweet.search(this.tweetSuccess));
+        // ?
+        let videoChars = ''
+        if (this.tweetSuccess !== '') {
+          console.log('if (this.tweetSuccess !==');
+          videoChars = this.tweetSuccess
+        }
+        else
+          console.log('else');
+          videoChars = embeddedTweet.search(/\/video\/1$/)
+
+        console.log('twitterChars:', twitterChars);
+        console.log('videoChars:', videoChars);
+        
+        let anythingButTwitter, realTwitter = ''
+
+        if (twitterChars !== -1) {
+          quit = true
+          if (videoChars !== -1) {
+            this.selectCopy = true
+            this.selectTweet = true
+            this.count = 280 - this.embeddedTweet.length
+            break
           }
 
-          if (match !== undefined && groupIndex === 2) {
-            status = match
+          if (twitterChars !== 0) {
+            anythingButTwitter = embeddedTweet.slice(0, twitterChars-1)
           }
-        })
+          realTwitter = embeddedTweet.slice(twitterChars, embeddedTweet.length)
+          console.log('realTwitter:', realTwitter);
+
+          // regex101.com
+          const regex = /https:\/\/twitter\.com\/(\w.*)\/status\/(\d*)|\?\w.*/gm
+
+          let m
+          let profile, status = ''
+
+          while ((m = regex.exec(realTwitter)) !== null) {        
+            // This is necessary to avoid infinite loops with zero-width matches
+            if (m.index === regex.lastIndex) {
+                regex.lastIndex++
+            }
+
+            // The result can be accessed through the `m`-variable.
+            m.forEach((match, groupIndex) => {
+              if (match !== undefined && groupIndex === 1) {
+                profile = match
+              }
+            
+              if (match !== undefined && groupIndex === 2) {
+                status = match
+              }
+            })
+          }
+
+          console.log('profile:', profile);
+          console.log('status:', status);
+
+          if (profile != '' && status != '') {
+            this.tweetSuccess = `https://twitter.com/${profile}/status/${status}/video/1`
+            console.log('i:', i);
+            if (anythingButTwitter !== undefined) {
+              anythingButTwitter = anythingButTwitter.trimEnd()
+              embeddedTweetArray[i] = `${anythingButTwitter}\n\n${this.tweetSuccess}`
+            } else {
+              embeddedTweetArray[i] = this.tweetSuccess
+            }
+
+            this.selectCopy = true
+            this.selectTweet = true
+          } else {
+            this.selectCopy = false
+            this.selectTweet = false
+          
+            this.count = 280 - this.embeddedTweet.length
+            break
+          }
+
+          console.log('embeddedTweetArray:', embeddedTweetArray);
+
+          this.embeddedTweet = embeddedTweetArray.join(' ')
+          break
+        } else {
+          this.embeddedTweet = embeddedTweetArray.join(' ')
+        }
+
+        this.count = 280 - this.embeddedTweet.length
       }
 
-      console.log('profile:', profile);
-      console.log('status:', status);
-
-      if (profile != '' && status != '') {
-        newEmbeddedTweet = `https://twitter.com/${profile}/status/${status}/video/1`
-        this.selectResults = true
-        this.selectCopy = true
-        this.selectTweet = true
-
-        this.count = 280 - newEmbeddedTweet.length
-      } else {
-        newEmbeddedTweet = this.embeddedTweet
-        this.selectResults = false
-        this.selectCopy = false
-        this.selectTweet = false
-
-        this.count = 280
+      if (!quit) {
+        this.isEmbeddedTweetError()
+        this.count = 280 - this.embeddedTweet.length
+        return
       }
-      
-      this.embeddedTweet = newEmbeddedTweet
     },
 
     // button: reset, copy dan tweet
     btnReset() {
-      this.embeddedTweet == ''
+      this.embeddedTweet = ''
       this.$refs.embeddedTweet.focus()
+      this.tweetSuccess = ''
       this.selectCopy = false
       this.selectTweet = false
     },
@@ -128,21 +189,26 @@ export default {
 
     btnCopyExample() {
       navigator.clipboard.writeText('Fedora 37! 👏\n\nhttps://twitter.com/ockibagusp/status/1592924571732414465?s=20&t=bgO6hwTfDckbtQibxDJZPQ')
+      this.$refs.embeddedTweet.focus()
     },
 
     isNotEmbeddedTweet() {
       this.embeddedTweet = ''
       this.isEmbeddedTweetDefault()
     },
+    
+    isEmbeddedTweetError() {
+      this.isEmbeddedTweetDefault()
+    },
+
     isEmbeddedTweetDefault() {
       // this.embeddedTweetBool = false
       this.count = 280
       this.selectCopy = false
       this.selectTweet = false
     },
+
     isEmbeddedTweetSuccess(videoLength) {
-      // this.embeddedTweetBool = true
-      this.selectResults = true
       this.selectCopy = true
       this.selectTweet = true
       this.count = 280 - videoLength
@@ -153,22 +219,23 @@ export default {
 
 <template>
   <main>
-    <h2 style="margin-top: 5px;">Menyematkan (embed) Video Tweet Tanpa Me-Retweet di Twitter</h2>
+    <h2 style="margin-top: 5px;">Menyematkan (embed) Tweet Video Tanpa Me-Retweet di Twitter</h2>
     <p style="margin-top: -15px;">Link: <a href="https://www.howtogeek.com/668753/how-to-embed-someones-twitter-video-without-retweeting-them" target="_blank">How to Embed Someone’s Twitter Video Without Retweeting Them!</a></p>
     <textarea v-model="embeddedTweet" style="margin-top: -10px; width: 500px;height: 90px;" 
-      placeholder="Fedora 37! 👏 (2)
+      placeholder="Fedora 37! 👏
 
 https://twitter.com/ockibagusp/status/1592924571732414465?s=20&t=bgO6hwTfDckbtQibxDJZPQ" cols="50" rows="4" ref="embeddedTweet" data-test="embedded-tweet"></textarea>
     <br>
     <button @click="btnReset" data-test="btn-reset">Reset</button>
     <button @click="btnCopy" data-test="btn-copy" :disabled="isCopy">Copy</button>
     <button @click="btnTweet" data-test="btn-tweet" :disabled="isTweet">Tweet is: <small v-if="embeddedTweet.length < 280">+</small> {{count}}</button>
-    <strong style="margin-left: 10px; color: red;">*Tweet ini tidak ada hasil</strong>
+    <strong v-if="selectNoResult" data-test="str-no-result" :style="{'margin-left': '10px', color: selectNoResult ? 'red' : '' }">*Tweet ini tidak ada hasil</strong>
     <br>
-    <p style="color: green; margin-top: 8px; margin-bottom: 8px;">*Bagikan Video Twitter di Android dan Video Twitter Dari Web</p>
-    <p style="margin-bottom: 5px;">Contoh:</p>
-    <p style="margin-top: 5px;">Fedora 37! 👏 (2)</p>  
-    <p>https://twitter.com/ockibagusp/status/1592924571732414465?s=20&t=bgO6hwTfDckbtQibxDJZPQ <button @click="btnCopyExample">Copy</button></p>
+    <p style="color: green; margin-top: 12px; margin-bottom: 8px;">*Bagikan Video Twitter di Android dan Video Twitter Dari Web</p>
+    <div style="width: 700px;">
+      <p style="margin-bottom: 0px;">Contoh:</p>
+      <p style="margin-top: 1px; border-bottom:1px solid black;">https://twitter.com/ockibagusp/status/1592924571732414465?s=20&t=bgO6hwTfDckbtQibxDJZPQ <button @click="btnCopyExample">Copy</button></p>
+    </div>
   </main>
   </template>
 
