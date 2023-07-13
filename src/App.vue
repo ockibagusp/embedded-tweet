@@ -53,6 +53,7 @@ export default {
       }
 
       let embeddedTweetArray = this.embeddedTweet.toString().split(' ')
+      let videoChars = ''
       console.log('embeddedTweetArray:', embeddedTweetArray);
       let quit = false
       for (let i = 0; i < embeddedTweetArray.length; i++) {
@@ -63,7 +64,6 @@ export default {
         console.log('this.tweetSuccess:', this.tweetSuccess);
         console.log('embeddedTweet.search', embeddedTweet.search(this.tweetSuccess));
         // ?
-        let videoChars = ''
         if (this.tweetSuccess !== '') {
           console.log('if (this.tweetSuccess !==');
           videoChars = this.tweetSuccess
@@ -131,12 +131,6 @@ export default {
 
             this.selectCopy = true
             this.selectTweet = true
-          } else {
-            this.selectCopy = false
-            this.selectTweet = false
-          
-            this.count = 280 - this.embeddedTweet.length
-            break
           }
 
           console.log('embeddedTweetArray:', embeddedTweetArray);
@@ -149,6 +143,8 @@ export default {
 
         this.count = 280 - this.embeddedTweet.length
       }
+
+
 
       if (!quit) {
         this.isEmbeddedTweetError()
