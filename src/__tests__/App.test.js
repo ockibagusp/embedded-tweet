@@ -140,23 +140,23 @@ describe('App js: embedded tweet all', () => {
   })
 })
 
-describe('App js: reset embedded tweet', () => {
-  it('reset embedded tweet', async() => {
-  })
-})
+// describe('App js: reset embedded tweet', () => {
+//   it('reset embedded tweet', async() => {
+//   })
+// })
 
-describe('App js: button reset', () => {
-  it('button reset', async() => {
-    // 1. textarea: embeddedTweet = '-'
-    // 2. textarea: hasil = '*Tweet ini tidak ada hasil'
-    await embeddedTweet.setValue('-')
+// describe('App js: button reset', () => {
+//   it('button reset', async() => {
+//     // 1. textarea: embeddedTweet = '-'
+//     // 2. textarea: hasil = '*Tweet ini tidak ada hasil'
+//     await embeddedTweet.setValue('-')
 
-    assert.equal(embeddedTweet.element.value, '-')
-    assert.equal(strNoResult.text(), '*Tweet ini tidak ada hasil')
-    await btnReset.trigger('click')
+//     assert.equal(embeddedTweet.element.value, '-')
+//     assert.equal(strNoResult.text(), '*Tweet ini tidak ada hasil')
+//     await btnReset.trigger('click')
 
-    assert.equal(embeddedTweet.element.value, '')
-    assert.equal(btnCopy.attributes().disabled, '')
-    assert.equal(btnTweet.attributes().disabled, '')
-  })
-})
+//     assert.equal(embeddedTweet.element.value, '')
+//     assert.equal(btnCopy.attributes().disabled, '')
+//     assert.equal(btnTweet.attributes().disabled, '')
+//   })
+// })

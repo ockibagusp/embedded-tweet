@@ -52,100 +52,71 @@ export default {
         return
       }
 
-      let embeddedTweetArray = this.embeddedTweet.toString().split(' ')
-      let videoChars = ''
-      console.log('embeddedTweetArray:', embeddedTweetArray);
+      let embeddedTweetArray = this.embeddedTweet.toString().split(' '), 
+        anythingButTwitter, realTwitter = ''
+      let realTwitterArray = []
+      let twitterChars = 0
       let quit = false
+      let z = 0
+
+      const regex = /https:\/\/twitter\.com\/(\w.*)\/status\/(\d*)|\?\w.*/gm
       for (let i = 0; i < embeddedTweetArray.length; i++) {
         const embeddedTweet = embeddedTweetArray[i]
-        const twitterChars = embeddedTweet.indexOf('https://twitter.com/')
-        
-        console.log('# embeddedTweet:', embeddedTweet);
-        console.log('this.tweetSuccess:', this.tweetSuccess);
-        console.log('embeddedTweet.search', embeddedTweet.search(this.tweetSuccess));
-        // ?
-        if (this.tweetSuccess !== '') {
-          console.log('if (this.tweetSuccess !==');
-          videoChars = this.tweetSuccess
-        }
-        else
-          console.log('else');
-          videoChars = embeddedTweet.search(/\/video\/1$/)
 
-        console.log('twitterChars:', twitterChars);
-        console.log('videoChars:', videoChars);
+        realTwitterArray = embeddedTweet.match(regex)
+        console.log('realTwitterArray:', realTwitterArray);
         
-        let anythingButTwitter, realTwitter = ''
-
-        if (twitterChars !== -1) {
-          quit = true
-          if (videoChars !== -1) {
-            this.selectCopy = true
-            this.selectTweet = true
-            this.count = 280 - this.embeddedTweet.length
-            break
+        if (realTwitterArray !== null) {
+          twitterChars = embeddedTweet.search(regex)
+          console.log('o:', twitterChars);
+          if (realTwitterArray[0].substring(0, 20) === 'https://twitter.com/') {
+            realTwitter = realTwitterArray[0] + '/video/1'
+            this.tweetSuccess = realTwitter
+            quit = true
+            
+            z = i
+            console.log('*ok');
           }
 
           if (twitterChars !== 0) {
             anythingButTwitter = embeddedTweet.slice(0, twitterChars-1)
           }
           realTwitter = embeddedTweet.slice(twitterChars, embeddedTweet.length)
-          console.log('realTwitter:', realTwitter);
-
-          // regex101.com
-          const regex = /https:\/\/twitter\.com\/(\w.*)\/status\/(\d*)|\?\w.*/gm
-
-          let m
-          let profile, status = ''
-
-          while ((m = regex.exec(realTwitter)) !== null) {        
-            // This is necessary to avoid infinite loops with zero-width matches
-            if (m.index === regex.lastIndex) {
-                regex.lastIndex++
-            }
-
-            // The result can be accessed through the `m`-variable.
-            m.forEach((match, groupIndex) => {
-              if (match !== undefined && groupIndex === 1) {
-                profile = match
-              }
-            
-              if (match !== undefined && groupIndex === 2) {
-                status = match
-              }
-            })
-          }
-
-          console.log('profile:', profile);
-          console.log('status:', status);
-
-          if (profile != '' && status != '') {
-            this.tweetSuccess = `https://twitter.com/${profile}/status/${status}/video/1`
-            console.log('i:', i);
-            if (anythingButTwitter !== undefined) {
-              anythingButTwitter = anythingButTwitter.trimEnd()
-              embeddedTweetArray[i] = `${anythingButTwitter}\n\n${this.tweetSuccess}`
-            } else {
-              embeddedTweetArray[i] = this.tweetSuccess
-            }
-
-            this.selectCopy = true
-            this.selectTweet = true
-          }
-
-          console.log('embeddedTweetArray:', embeddedTweetArray);
-
-          this.embeddedTweet = embeddedTweetArray.join(' ')
-          break
-        } else {
-          this.embeddedTweet = embeddedTweetArray.join(' ')
-        }
-
-        this.count = 280 - this.embeddedTweet.length
+        }  
       }
 
+      if (realTwitter === '') {
+        this.selectCopy = false
+        this.selectTweet = false
+        this.count = 280 - this.embeddedTweet.length
+        return
+      }
 
+      /**
+       * else: realTwitter !== ''
+       *  
+       * eq.
+       * realTwitter = 'https://twitter.com/ockibagusp/status/1592924571732414465/video/1'
+       */
+      this.selectCopy = true
+      this.selectTweet = true
+      this.count = 280 - this.embeddedTweet.length
 
+      if (anythingButTwitter !== undefined) {
+        anythingButTwitter = anythingButTwitter.trimEnd()
+        embeddedTweetArray[z] = `${anythingButTwitter}\n\n${this.tweetSuccess}`
+      } else {
+        embeddedTweetArray[z] = this.tweetSuccess
+      }
+
+      this.selectCopy = true
+      this.selectTweet = true
+
+      console.log('embeddedTweetArray:', embeddedTweetArray)
+      this.embeddedTweet = embeddedTweetArray.join(' ')
+
+      this.count = 280 - this.embeddedTweet.length
+      
       if (!quit) {
         this.isEmbeddedTweetError()
         this.count = 280 - this.embeddedTweet.length
