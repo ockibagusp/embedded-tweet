@@ -70,27 +70,27 @@ describe('App js: embedded tweet all', () => {
     const testCases = [
       {
         name: 'embedded tweet success: 1',
-        embeddedTweet: 'Fedora 37! 👏 (2)\n\nhttps://twitter.com/ockibagusp/status/1592924571732414465?s=20&t=bgO6hwTfDckbtQibxDJZPQ',
-        results: 'Fedora 37! 👏 (2)\n\nhttps://twitter.com/ockibagusp/status/1592924571732414465/video/1',
-        tweetIs: 'Tweet is: + 196'
+        embeddedTweet: 'Test One\n\nhttps://twitter.com/Test1/status/1000?s=20&t=bgO6hwTfDckbtQibxDJZPQ',
+        results: 'Test One\n\nhttps://twitter.com/Test1/status/1000/video/1',
+        tweetIs: 'Tweet is: + 225'
       },
       {
         name: 'embedded tweet success: 2',
-        embeddedTweet: 'Bang Messi "KW": (2)\n\nhttps://twitter.com/ockibagusp/status/1667598173530095616?s=20',
-        results: 'Bang Messi "KW": (2)\n\nhttps://twitter.com/ockibagusp/status/1667598173530095616/video/1',
-        tweetIs: 'Tweet is: + 193'
+        embeddedTweet: 'Test Two\n\nhttps://twitter.com/Test2/status/2000?s=20',
+        results: 'Test Two\n\nhttps://twitter.com/Test2/status/2000/video/1',
+        tweetIs: 'Tweet is: + 225'
       },
       {
         name: 'embedded tweet success: 3',
-        embeddedTweet: 'Cara Menerima THR yang Benar [Meme] (2)\n\nSrc. (YouTube)\n\nhttps://twitter.com/ockibagusp/status/1647863715159760896',
-        results: 'Cara Menerima THR yang Benar [Meme] (2)\n\nSrc. (YouTube)\n\nhttps://twitter.com/ockibagusp/status/1647863715159760896/video/1',
-        tweetIs: 'Tweet is: + 158'
+        embeddedTweet: 'Test Three\n\nSrc. (YouTube)\n\nhttps://twitter.com/TestThree/status/3000',
+        results: 'Test Three\n\nSrc. (YouTube)\n\nhttps://twitter.com/TestThree/status/3000/video/1',
+        tweetIs: 'Tweet is: + 203'
       },
       {
         name: 'embedded tweet success: 4',
-        embeddedTweet: 'https://twitter.com/NRBTweetz/status/1640326522916728834?s=20',
-        results: 'https://twitter.com/NRBTweetz/status/1640326522916728834/video/1',
-        tweetIs: 'Tweet is: + 216'
+        embeddedTweet: 'https://twitter.com/TestFour/status/40004?s=20',
+        results: 'https://twitter.com/TestFour/status/40004/video/1',
+        tweetIs: 'Tweet is: + 231'
       }
     ]
 
@@ -122,8 +122,8 @@ describe('App js: embedded tweet all', () => {
       },
       {
         name: 'embedded tweet failure: 3',
-        embeddedTweet: 'Test Failure 3\n\nhttps://twitter.com//status/1592924571732414465?s=20',
-        results: 'Test Failure 3\n\nhttps://twitter.com//status/1592924571732414465?s=20',
+        embeddedTweet: 'Test Failure 3\n\nhttps://twitter.com//status/1000?s=20',
+        results: 'Test Failure 3\n\nhttps://twitter.com//status/1000?s=20',
         tweetIs: 'Tweet is: + 212'
       }
     ]
