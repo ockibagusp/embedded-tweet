@@ -93,7 +93,7 @@ export default {
           console.log('realTwitter:', realTwitter);
 
           // regex101.com
-          const regex = /https:\/\/twitter\.com\/(\w.*)\/status\/(\d*)|\?\w.*/gm
+          const regex = /https:\/\/(twitter|x)\.com\/(\w.*)\/status\/(\d*)|\?\w.*/gm
 
           let m
           let profile, status = ''
