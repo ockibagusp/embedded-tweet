@@ -260,8 +260,6 @@ https://twitter.com/ockibagusp/status/1592924571732414465?s=20&t=bgO6hwTfDckbtQi
     <button @click="btnTweet" data-test="btn-tweet" :disabled="isTweet">
       Tweet is: <small v-if="embeddedTweet.length < 280">+</small> {{ count }}
     </button>
-    👏
-    https://x.com/ockibagusp/status/1592924571732414465?s=20&t=bgO6hwTfDckbtQibxDJZPQ
     <strong
       v-if="selectNoResult"
       data-test="str-no-result"
